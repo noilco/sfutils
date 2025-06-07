@@ -1,0 +1,4 @@
+active,available,defaultRecordTypeMapping,developerName,master,name,recordTypeId,layout
+True,True,True,Corporate,False,Corporate,0121Q000001QObrQAG,/services/data/v64.0/sobjects/Account/describe/layouts/0121Q000001QObrQAG
+True,False,False,PersonAccount,False,個人取引先,0121Q000001QObwQAG,/services/data/v64.0/sobjects/Account/describe/layouts/0121Q000001QObwQAG
+True,True,False,マスター,True,マスター,012000000000000AAA,/services/data/v64.0/sobjects/Account/describe/layouts/012000000000000AAA
