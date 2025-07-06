@@ -26,6 +26,7 @@ import string
 import argparse
 import base64
 from datetime import date, datetime, timedelta, timezone
+import sys
 
 # 日本語文字プール
 HIRAGANA = [chr(i) for i in range(0x3041, 0x3097)]
@@ -119,12 +120,13 @@ def main():
     desc_path = os.path.abspath(args.describe)
     skips = {f.strip() for f in args.skip_fields.split(',') if f.strip()}
     with open(desc_path, encoding='utf-8') as f:
-        meta = json.load(f)
+        meta = json.load(f).get('result')
 
     fields = [f for f in meta.get('fields', []) if not f.get('calculated') and f['name'] not in SYSTEM_FIELDS]
     rtinfos = [rt for rt in meta.get('recordTypeInfos', []) if rt.get('active') and rt.get('name') not in EXCLUDE_RT_NAMES]
     all_rts = [rt['recordTypeId'] for rt in rtinfos]
     id_to_dev = {rt['recordTypeId']: rt.get('developerName') for rt in rtinfos}
+    print(f"Found {len(fields)} fields, {len(all_rts)} record types")
 
     # Prepare mappings
     ctrl_vals_map = {}
@@ -171,7 +173,10 @@ def main():
         writer = csv.DictWriter(out_f, fieldnames=[fld['name'] for fld in fields])
         writer.writeheader()
         for _ in range(args.rows):
-            rt = random.choice(all_rts)
+            if all_rts:
+                rt = random.choice(all_rts)
+            else:
+                rt = ''
             dev = id_to_dev.get(rt)
             is_person = (args.person_rt_dev_name and dev == args.person_rt_dev_name)
             row = {}
