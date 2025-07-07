@@ -56,7 +56,9 @@ def run_cmd(cmd, capture_output=False, cwd=None):
         cwd=cwd or PROJECT_ROOT,
         stdout=subprocess.PIPE if capture_output else None,
         stderr=subprocess.PIPE,
-        text=True
+        text=True,
+        encoding='utf-8',
+        errors='replace'
     )
 
 
@@ -84,7 +86,7 @@ def main():
         sys.stderr.write(f"Error describing: {res.stderr}\n")
         sys.exit(1)
     with open(desc_path, 'w', encoding='utf-8') as f:
-        f.write(res.stdout, encoding='utf-8')
+        f.write(res.stdout)
     print(f"Describe saved to {desc_path}")
 
     # 2) Generate CSV
