@@ -84,7 +84,7 @@ def main():
         sys.stderr.write(f"Error describing: {res.stderr}\n")
         sys.exit(1)
     with open(desc_path, 'w', encoding='utf-8') as f:
-        f.write(res.stdout)
+        f.write(res.stdout, encoding='utf-8')
     print(f"Describe saved to {desc_path}")
 
     # 2) Generate CSV
