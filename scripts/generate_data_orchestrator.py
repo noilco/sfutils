@@ -25,6 +25,7 @@ import os
 import json
 import re
 import shlex
+import shutil
 
 # Paths
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -43,6 +44,13 @@ def init_output_dirs():
 
 
 def run_cmd(cmd, capture_output=False, cwd=None):
+    shell = os.name == 'nt'
+    if isinstance(cmd, (list, tuple)) and cmd:
+      exe = cmd[0]
+      path = shutil.which(exe)
+      if path:
+          cmd[0] = path
+
     return subprocess.run(
         cmd,
         cwd=cwd or PROJECT_ROOT,
